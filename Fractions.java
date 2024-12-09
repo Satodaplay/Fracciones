@@ -4,7 +4,7 @@ public class Fractions {
 
         String[][] diccionario = {
                 {"0", "cero"},
-                {"1", "un"},
+                {"1", "posicionQuinta"},
                 {"2", "dos"},
                 {"3", "tres"},
                 {"4", "quatre"},
@@ -30,7 +30,7 @@ public class Fractions {
                 {"90", "noranta"},
                 {"100", "cent"},
                 {"1000", "mil"},
-                {"1000000", "un milión"},
+                {"1000000", "posicionQuinta milión"},
                 {"-1", ""},
         };
 
@@ -41,7 +41,19 @@ public class Fractions {
         return procesarFraccion(diccionario, numerador, denominador);
 
     }
+    /*
+               _____     ____
+             /      \  |  o |
+            |        |/ ___\|
+            |_________/
+            |_|_| |_|_|
 
+     */
+
+    /*
+        - primeraletraMayus() Lo que hace es convertir la primera letra del String que se le pase en mayuscula
+          tiene un pequeño control de errores que deuvelve sirve por si el texto esta vacio.
+     */
     public static String primeraletraMayus(String texto) {
         if (texto == null || texto.isEmpty()) {
             return texto;
@@ -49,9 +61,18 @@ public class Fractions {
         return texto.substring(0, 1).toUpperCase() + texto.substring(1);
     }
 
+    /*
+        - convertirInt() Sirve para que le pases un String y lo parta por "/" .
+     */
+
     public static String[] convertirInt(String fraccio) {
         return fraccio.split("/");
     }
+
+    /*
+        - leerDiccionario() Es una funcion que su funcion es leer el String diccionario y el que se encarga de convertir
+          el numero a letras.
+     */
 
     public static int leerDiccionario(String[][] diccionario, int respuesta) {
         for (int i = 0; i < diccionario.length; i++) {
@@ -61,6 +82,11 @@ public class Fractions {
         }
         return -1;
     }
+
+    /*
+        - procesarFraccion() Se encarga principalmente de dividir la fraccion para tener partes completas, y pasa
+          el resto a la funcion separarNum o a separarNumCompleto.
+     */
 
     public static String procesarFraccion(String[][] diccionario, int numerador, int denominador) {
 
@@ -75,7 +101,7 @@ public class Fractions {
             numerador /= denominador;
         }
 
-        String result = separarNumFin(diccionario, partesCompletas);
+        String result = separarNumCompleto(diccionario, partesCompletas);
 
         if (partesCompletas == 0) {
             return separarNum(diccionario, numerador, denominador, numerador, partesCompletas);
@@ -84,10 +110,14 @@ public class Fractions {
         } else {
             return result + ", " + separarNum(diccionario, numerador, denominador, numerador, partesCompletas);
         }
-
     }
 
-    public static String separarNumFin(String[][] diccionario, int respuesta) {
+    /*
+        - separarNumCompleto() Separa por unidades, decenas, centenas etc el numero que le pongamos, y se lo pasara a
+          la funcion numerador para que sepa como tiene que escribir el numero.
+     */
+
+    public static String separarNumCompleto(String[][] diccionario, int respuesta) {
 
         int milionesim = 0;
         int milesimas = 0;
@@ -123,18 +153,22 @@ public class Fractions {
         unidades = respuesta;
         decenas = decenas * 10;
 
-        String un = "";
-        String zero = "";
-        String prim = "";
-        String seg = "";
-        String terc = "";
+        String posicionQuinta = "";
+        String posicionCuarta = "";
+        String posicionTercera = "";
+        String posicionSegunda = "";
+        String posicionPrimera = "";
 
-        String result = numerador(diccionario, milionesim, milesimas, centesimas, decenas, unidades, un, zero, prim, seg, terc);
+        String result = numerador(diccionario, milionesim, milesimas, centesimas, decenas, unidades, posicionQuinta, posicionCuarta, posicionTercera, posicionSegunda, posicionPrimera);
 
         result = primeraletraMayus(result);
 
         return result;
     }
+
+    /*
+        - SEGUIR AQUI.
+     */
 
     public static String separarNum(String[][] diccionario, int respuesta1, int respuesta2, int numerador, int partesCompletas) {
 
@@ -206,21 +240,21 @@ public class Fractions {
         decenasD = decenasD * 10;
 
         if (unidadesN == 1 && unidadesD == 2 && decenasD == 0) {
-            return "Un mig";
+            return "posicionQuinta mig";
         } else if (unidadesN == 1 && unidadesD == 3 && decenasD == 0) {
-            return  "Un terç";
+            return  "posicionQuinta terç";
         } else if (unidadesN == 1 && unidadesD == 4 && decenasD == 0) {
-            return  "Un cuart";
+            return  "posicionQuinta cuart";
         }
 
-        String un = "";
-        String zero = "";
-        String prim = "";
-        String seg = "";
-        String terc = "";
+        String posicionQuinta = "";
+        String posicionCuarta = "";
+        String posicionTercera = "";
+        String posicionSegunda = "";
+        String posicionPrimera = "";
 
-        String resultDeno = denominador(diccionario, milionesimD, milesimasD, centesimasD, decenasD, unidadesD, numerador, un, zero, prim, seg, terc);
-        String resultNumera = numerador(diccionario, milionesimN, milesimasN, centesimasN, decenasN, unidadesN, un, zero, prim, seg, terc);
+        String resultDeno = denominador(diccionario, milionesimD, milesimasD, centesimasD, decenasD, unidadesD, numerador, posicionQuinta, posicionCuarta, posicionTercera, posicionSegunda, posicionPrimera);
+        String resultNumera = numerador(diccionario, milionesimN, milesimasN, centesimasN, decenasN, unidadesN, posicionQuinta, posicionCuarta, posicionTercera, posicionSegunda, posicionPrimera);
 
         if (partesCompletas > 0) {
             return resultNumera + " " + resultDeno;
@@ -231,14 +265,14 @@ public class Fractions {
         return resultNumera + " " + resultDeno;
     }
 
-    public static String numerador(String[][] diccionario, int milionesima,int milesimas,int centesimas, int decenas, int unidades, String un, String zero, String prim, String seg, String terc){
+    public static String numerador(String[][] diccionario, int milionesima,int milesimas,int centesimas, int decenas, int unidades, String posicionQuinta, String posicionCuarta, String posicionTercera, String posicionSegunda, String posicionPrimera){
         String vacio = "";
         milesimas = milesimas * 1000;
         boolean mil = true;
 
         if (milesimas != 1000 && centesimas == 0 && decenas == 0 && unidades == 0 && milionesima == 0) {
             milesimas = milesimas / 1000;
-            zero = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil·lèsim";
+            posicionCuarta = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil·lèsim";
             mil = false;
         }
         if (mil && milesimas > 1000) {
@@ -257,95 +291,97 @@ public class Fractions {
                 }
                 num = num * 10;
                 if (cent > 0 && num != 10 && milesimas != 5) {
-                    zero = diccionario[leerDiccionario(diccionario, cent)][1] + "-cents " + diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil ";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, cent)][1] + "-cents " + diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil ";
                 } else if (num != 10 && milesimas != 5) {
-                    zero = diccionario[leerDiccionario(diccionario, num)][1] + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, num)][1] + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
                 } else if (num != 10) {
-                    zero = diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
                 } else {
-                    zero = diccionario[leerDiccionario(diccionario, num)][1] + " mil ";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, num)][1] + " mil ";
                 }
             } else {
-                zero = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                posicionCuarta = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
             }
             vacio = " ";
         }
 
         if (centesimas == 1) {
             centesimas = centesimas * 100;
-            prim = diccionario[leerDiccionario(diccionario, centesimas)][1];
+            posicionTercera = diccionario[leerDiccionario(diccionario, centesimas)][1];
+        } else if (centesimas > 1 && unidades == 2) {
+            posicionTercera = diccionario[leerDiccionario(diccionario, centesimas)][1] + "-cents ";
         } else if (centesimas > 1) {
-            prim = diccionario[leerDiccionario(diccionario, centesimas)][1] + "-cents";
+            posicionTercera = diccionario[leerDiccionario(diccionario, centesimas)][1] + "-cents";
         }
 
         if (decenas == 20 && unidades > 0 && unidades != 5) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i-";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i-";
         } else if (decenas == 20 && unidades > 0) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i";
         } else if (unidades != 5 && decenas > 20){
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "-";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "-";
         } else if (decenas == 0) {
-            seg = "";
+            posicionSegunda = "";
         } else {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1];
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1];
         }
 
         if (decenas == 10 && unidades < 7 && unidades > 0) {
             decenas = decenas + unidades;
             unidades = -1;
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1];
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1];
         }
 
         if (unidades == 5 && decenas != 0) {
-            terc = "-" + diccionario[leerDiccionario(diccionario, unidades)][1];
+            posicionPrimera = "-" + diccionario[leerDiccionario(diccionario, unidades)][1];
         } else {
-            terc = diccionario[leerDiccionario(diccionario, unidades)][1];
+            posicionPrimera = diccionario[leerDiccionario(diccionario, unidades)][1];
         }
 
         if (unidades == 0) {
-            terc = "";
+            posicionPrimera = "";
         }
 
         if (centesimas != 0 && decenas != 0 && unidades != 0) {
             vacio = " ";
         }
 
-        return zero + prim + vacio + seg + terc;
+        return posicionCuarta + posicionTercera + vacio + posicionSegunda + posicionPrimera;
     }
 
-    public static String denominador(String[][] diccionario, int milionesima, int milesimas, int centesimas, int decenas, int unidades, int numerador, String un, String zero, String prim, String seg, String terc){
+    public static String denominador(String[][] diccionario, int milionesima, int milesimas, int centesimas, int decenas, int unidades, int numerador, String posicionQuinta, String posicionCuarta, String posicionTercera, String posicionSegunda, String posicionPrimera){
 
         milionesima = milionesima * 1000000;
 
         if (milionesima == 1000000 && numerador == 1 && milesimas == 0 && centesimas == 0 && decenas == 0 && unidades == 0) {
-            un = "milionèsim";
+            posicionQuinta = "milionèsim";
         } else if (milionesima == 1000000 && milesimas == 0 && centesimas == 0 && decenas == 0 && unidades == 0) {
-            un = "milionèsims";
+            posicionQuinta = "milionèsims";
         } else if (milionesima == 1000000) {
-            un = "milió ";
+            posicionQuinta = "milió ";
         } else if (milionesima > 1000000) {
             milionesima = milionesima / 1000000;
-            un = diccionario[leerDiccionario(diccionario, milionesima)][1] + " milions ";
+            posicionQuinta = diccionario[leerDiccionario(diccionario, milionesima)][1] + " milions ";
         }
 
 
         milesimas = milesimas * 1000;
         String vacio = "";
         if (milesimas == 1000) {
-            zero = "mil" + " ";
+            posicionCuarta = "mil" + " ";
         }
         if (milesimas == 1000 && numerador == 1 && centesimas == 0 && decenas == 0 && unidades == 0) {
-            zero = "mil·lèsim";
+            posicionCuarta = "mil·lèsim";
         }
         if (milesimas == 1000 && numerador != 1 && centesimas == 0 && decenas == 0 && unidades == 0) {
-            zero = "mil·lèsims";
+            posicionCuarta = "mil·lèsims";
         }
 
         boolean mil = true;
 
         if (milesimas != 1000 && centesimas == 0 && decenas == 0 && unidades == 0 && milionesima == 0) {
             milesimas = milesimas / 1000;
-            zero = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil·lèsim";
+            posicionCuarta = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil·lèsim";
             mil = false;
         }
         if (mil && milesimas > 1000) {
@@ -364,101 +400,101 @@ public class Fractions {
                 }
                 num = num * 10;
                 if (cent > 0 && num != 10 && milesimas != 5) {
-                    zero = diccionario[leerDiccionario(diccionario, cent)][1] + "-cents " + diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, cent)][1] + "-cents " + diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
                 } else if (num != 10 && milesimas != 5) {
-                    zero = diccionario[leerDiccionario(diccionario, num)][1] + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, num)][1] + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
                 } else if (num != 10) {
-                    zero = diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, num)][1] + "-" + diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
                 } else {
-                    zero = diccionario[leerDiccionario(diccionario, num)][1] + " mil";
+                    posicionCuarta = diccionario[leerDiccionario(diccionario, num)][1] + " mil";
                 }
             } else {
-                zero = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
+                posicionCuarta = diccionario[leerDiccionario(diccionario, milesimas)][1] + " mil";
             }
             vacio = " ";
         }
 
         if (centesimas == 1) {
             centesimas = centesimas * 100;
-            prim = diccionario[leerDiccionario(diccionario, centesimas)][1] + " ";
+            posicionTercera = diccionario[leerDiccionario(diccionario, centesimas)][1] + " ";
         }
 
         if (centesimas == 100 && numerador == 1) {
-            prim = "centèsim";
+            posicionTercera = "centèsim";
         } else if (centesimas > 1 && centesimas != 100) {
-            prim = diccionario[leerDiccionario(diccionario, centesimas)][1] + "-cents" + " ";
+            posicionTercera = diccionario[leerDiccionario(diccionario, centesimas)][1] + "-cents" + " ";
         }
 
         if (decenas == 20 && unidades > 0 && unidades != 5) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i-";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i-";
         } else if (decenas == 20 && unidades > 0) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "-i";
         } else if (unidades != 5 && decenas > 20 && unidades != 0){
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "-";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "-";
         } else if (decenas > 10 && decenas < 17 && numerador == 1 && unidades == 0 || decenas > 20 && decenas < 100 && numerador == 1 && unidades == 0) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è";
         } else if (unidades == 0 && decenas != 20 && numerador == 1 && decenas != 10) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è";
         }  else if (unidades == 0 && decenas != 20 && decenas != 10) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "ens";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "ens";
         } else if (unidades == 0 && numerador == 1 && decenas != 10 ) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "è";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "è";
         } else if (unidades == 0 && decenas != 10) {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1] + "ens";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1] + "ens";
         } else if (decenas == 10 && unidades > 7 && unidades <= 9) {
-            seg = "di";
+            posicionSegunda = "di";
         } else if (decenas == 10 && unidades == 7) {
-            seg = "dis";
+            posicionSegunda = "dis";
         } else if (decenas == 10 && unidades == 0 && numerador == 1) {
-            seg = "dècim";
+            posicionSegunda = "dècim";
         } else if (decenas == 10 && unidades == 0) {
-            seg = "dècims";
+            posicionSegunda = "dècims";
         } else if (decenas == 0) {
-            seg = "";
+            posicionSegunda = "";
         } else {
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1];
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1];
         }
 
         if (decenas == 10 && unidades < 7 && unidades > 0 && numerador == 1) {
             decenas = decenas + unidades;
             unidades = -1;
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è";
         }
         if (decenas == 10 && unidades < 7 && unidades > 0 ) {
             decenas = decenas + unidades;
             unidades = -1;
-            seg = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "ens";
+            posicionSegunda = diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "ens";
         }
-        if (numerador == 1 && !seg.equals(diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è")) {
-            terc = diccionario[leerDiccionario(diccionario, unidades)][1] + "è";
+        if (numerador == 1 && !posicionSegunda.equals(diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è")) {
+            posicionPrimera = diccionario[leerDiccionario(diccionario, unidades)][1] + "è";
         } else if (numerador != 1 && unidades == 4) {
-            terc = diccionario[leerDiccionario(diccionario, unidades)][1].substring(0, diccionario[leerDiccionario(diccionario, unidades)][1].length() - 1) + "ens";
-        } else if (numerador != 1 && unidades != -1 && !seg.equals(diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è")) {
-            terc = diccionario[leerDiccionario(diccionario, unidades)][1] + "ens";
+            posicionPrimera = diccionario[leerDiccionario(diccionario, unidades)][1].substring(0, diccionario[leerDiccionario(diccionario, unidades)][1].length() - 1) + "ens";
+        } else if (numerador != 1 && unidades != -1 && !posicionSegunda.equals(diccionario[leerDiccionario(diccionario, decenas)][1].substring(0, diccionario[leerDiccionario(diccionario, decenas)][1].length() - 1) + "è")) {
+            posicionPrimera = diccionario[leerDiccionario(diccionario, unidades)][1] + "ens";
         }
 
         if (unidades == 5 && numerador == 1) {
-            terc = "-cinquè";
+            posicionPrimera = "-cinquè";
         } else if (unidades == 5 && decenas == 0 ) {
-            terc = "cinquens";
+            posicionPrimera = "cinquens";
         } else if (unidades == 5) {
-            terc = "-cinquens";
+            posicionPrimera = "-cinquens";
         }
 
         if (unidades == 9 && numerador == 1) {
-            terc = "novè";
+            posicionPrimera = "novè";
         } else if (unidades == 9) {
-            terc = "novens";
+            posicionPrimera = "novens";
         }
 
         if (decenas == 0) {
-            seg = "";
+            posicionSegunda = "";
         }
 
         if (unidades == 0) {
-            terc = "";
+            posicionPrimera = "";
         }
 
-        return un + zero + vacio + prim + seg + terc;
+        return posicionQuinta + posicionCuarta + vacio + posicionTercera + posicionSegunda + posicionPrimera;
     }
 }
