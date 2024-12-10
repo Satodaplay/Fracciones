@@ -4,7 +4,7 @@ public class Fractions {
 
         String[][] diccionario = {
                 {"0", "cero"},
-                {"1", "posicionQuinta"},
+                {"1", "un"},
                 {"2", "dos"},
                 {"3", "tres"},
                 {"4", "quatre"},
@@ -30,7 +30,7 @@ public class Fractions {
                 {"90", "noranta"},
                 {"100", "cent"},
                 {"1000", "mil"},
-                {"1000000", "posicionQuinta milión"},
+                {"1000000", "un milión"},
                 {"-1", ""},
         };
 
@@ -167,7 +167,7 @@ public class Fractions {
     }
 
     /*
-        - SEGUIR AQUI.
+        - separarNum() esta funcion hace los mismo que la anterior pero para el denominador y el numerador.
      */
 
     public static String separarNum(String[][] diccionario, int respuesta1, int respuesta2, int numerador, int partesCompletas) {
@@ -240,11 +240,11 @@ public class Fractions {
         decenasD = decenasD * 10;
 
         if (unidadesN == 1 && unidadesD == 2 && decenasD == 0) {
-            return "posicionQuinta mig";
+            return "Un mig";
         } else if (unidadesN == 1 && unidadesD == 3 && decenasD == 0) {
-            return  "posicionQuinta terç";
+            return  "Un terç";
         } else if (unidadesN == 1 && unidadesD == 4 && decenasD == 0) {
-            return  "posicionQuinta cuart";
+            return  "Un cuart";
         }
 
         String posicionQuinta = "";
@@ -264,6 +264,11 @@ public class Fractions {
 
         return resultNumera + " " + resultDeno;
     }
+
+    /*
+        - numerador() es una funcion que sirve para poner todas las excepciones del numerador osea que si son miles ponga
+          diez mil o con los veintes que ponga la i.
+    */
 
     public static String numerador(String[][] diccionario, int milionesima,int milesimas,int centesimas, int decenas, int unidades, String posicionQuinta, String posicionCuarta, String posicionTercera, String posicionSegunda, String posicionPrimera){
         String vacio = "";
@@ -348,6 +353,11 @@ public class Fractions {
 
         return posicionCuarta + posicionTercera + vacio + posicionSegunda + posicionPrimera;
     }
+
+    /*
+        - denominador() es una funcion que sirve para poner todas las excepciones del denominador osea que si son miles
+          ponga diez mil o con los veintes que ponga la i.
+    */
 
     public static String denominador(String[][] diccionario, int milionesima, int milesimas, int centesimas, int decenas, int unidades, int numerador, String posicionQuinta, String posicionCuarta, String posicionTercera, String posicionSegunda, String posicionPrimera){
 
